@@ -1,0 +1,65 @@
+---
+title: "Integration with Quarto"
+author: "Erik Štrumbelj"
+date: today
+#format:
+#  html:
+#    toc: true
+#    embed-resources: true
+#    theme: cosmo
+#format:
+#  typst:
+#    toc: true
+format:
+  pdf:
+    documentclass: article
+    pdf-engine: pdflatex
+execute:
+  warning: false
+  message: false
+---
+
+## 1. Why Quarto?
+
+Quarto is the next-generation scientific reporting engine that eliminates error-prone copy-pasting by unifying **narrative prose**, **$LaTeX$ mathematics**, and **executable analytical code** into a single source of truth.
+
+---
+
+## 2. Mathematical Typesetting (LaTeX)
+
+Inline mathematical equations are written using single dollar signs: the sample observation is $y_i \sim \mathcal{N}(\mu, \sigma^2)$.
+
+Displayed block equations use double dollar signs:
+
+$$
+y_{ij} = \mu + \tau_j + \epsilon_{ij}, \quad \text{where} \quad \epsilon_{ij} \sim \mathcal{N}(0, \sigma^2)
+$$
+
+The Closed-Form Ordinary Least Squares (OLS) estimator is:
+
+$$
+\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}
+$$
+
+---
+
+## 3. Sourcing R Scripts & Loading Pre-Generated Figures
+
+We can source our decoupled R script to run the pipeline and embed the pre-rendered plot.
+
+```{r}
+#| label: source-pipeline
+#| include: false
+# 'include: false' runs the script silently in the background
+source(here::here("R", "01_project_discipline.R"))
+```
+
+```{r}
+#| label: fig-reaction-latency
+#| fig-cap: "Distribution of response latencies across experimental arms."
+#| fig-align: center
+#| out-width: "75%"
+#| echo: false
+
+knitr::include_graphics("output/reaction_plot.png")
+```
