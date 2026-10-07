@@ -34,6 +34,11 @@
 
 ### Missing value semantics (NA vs. NULL vs. NaN)
 
+- Distinction between missing data (NA), mathematically undefined results (NaN), and total object absence (NULL).
+- NA (Not Available): Represents missing empirical values; preserves vector length and data type; propagates through calculations unless cleared with na.rm = TRUE; checked via is.na().
+- NaN (Not a Number): Represents undefined real arithmetic (e.g., 0/0, log(-1)); acts as a sub-type of NA (is.na(NaN) is TRUE); checked via is.nan().
+- NULL (Null Object): Represents absolute object absence (length 0); vanishes inside vectors; used to delete columns (df$col <- NULL); checked via is.null().
+
 ### Core Data Wrangling with dplyr and tidyr
 
 - Row filtering with compound logical operators (filter).
