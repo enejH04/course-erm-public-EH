@@ -7,16 +7,38 @@ library(tidyverse)
 set.seed(0)
 n <- 30
 
-df <- tibble(
-  subject_id    = 1:n,
-  group         = factor(sample(c("Control", "Treatment_A", "Treatment_B"), 
-                                n, 
-                                replace = TRUE),
-                         levels = c("Control", "Treatment_A", "Treatment_B")),
-  reaction_time = round(c(rnorm(n/3, 450, 40), 
-                          rnorm(n/3, 380, 35), 
-                          rnorm(n/3, 320, 30)), 1)
+
+# Define groups
+group <- factor(
+  sample(
+    c(
+      "Control", 
+      "Treatment_A", 
+      "Treatment_B"
+    ),
+    n, 
+    replace = TRUE
+  ),
+  levels = c("Control", "Treatment_A", "Treatment_B")
 )
+
+# Generate synthetic data for each group. 
+# Control: N(450, 40); Treatment A: N(380, 35); Treatment B: N(320, 30).
+mu    <- numeric(n)
+sigma <- numeric(n)
+for (i in 1:n) {
+  if (group[i] == "Control") {
+    mu[i]    <- 450
+    sigma[i] <- 40
+  } else if (group[i] == "Treatment_A") {
+    mu[i]    <- 380
+    sigma[i] <- 35
+  } else if (group[i] == "Treatment_B") {
+    mu[i]    <- 320
+    sigma[i] <- 30
+  }
+}
+
 
 # 2. Attribute inspection ------------------------------------------------------
 
@@ -44,3 +66,4 @@ ggsave(here::here("output", "reaction_plot.png"), # use relative paths, avoid se
        plot = p, width = 6, height = 3.5, dpi = 300) 
 
 plot(p)
+
