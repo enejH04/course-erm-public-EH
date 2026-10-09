@@ -39,6 +39,16 @@ for (i in 1:n) {
   }
 }
 
+reaction_time <- numeric(n)
+for (i in seq_len(n)) {
+  reaction_time[i] <- round(rnorm(1, mean = mu[i], sd = sigma[i]), 1)
+}
+
+df <- tibble(
+  subject_id    = 1:n,
+  group         = group,
+  reaction_time = reaction_time
+)
 
 # 2. Attribute inspection ------------------------------------------------------
 
