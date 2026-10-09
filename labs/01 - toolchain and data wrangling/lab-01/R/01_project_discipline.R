@@ -50,6 +50,27 @@ df <- tibble(
   reaction_time = reaction_time
 )
 
+### Alternative data definition (no for loops)
+
+group <- factor(sample(c("Control", "Treatment_A", "Treatment_B"),
+                       n, replace = TRUE),
+                levels = c("Control", "Treatment_A", "Treatment_B"))
+
+# Lookup tables: one value per group
+mu_by_group    <- c(Control = 450, Treatment_A = 380, Treatment_B = 320)
+sigma_by_group <- c(Control = 40,  Treatment_A = 35,  Treatment_B = 30)
+
+df <- tibble(
+  subject_id = seq_len(n),
+  group      = group
+) %>%
+  mutate(
+    mu            = mu_by_group[as.character(group)],
+    sigma         = sigma_by_group[as.character(group)],
+    reaction_time = round(rnorm(n, mean = mu, sd = sigma), 1)
+  ) %>%
+  select(subject_id, group, reaction_time)
+
 # 2. Attribute inspection ------------------------------------------------------
 
 view(df)
